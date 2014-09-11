@@ -2,7 +2,7 @@
 INPUT?=		input/example.osm.pbf
 
 STYLE?=		config
-TYP?=       M00001e0.TYP
+TYP?=     stranger.typ
 ID?=        480
 PAD?=		00000000
 MAPID?=		${shell echo ${ID}${PAD} | cut -c1-8}

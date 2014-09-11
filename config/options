@@ -15,9 +15,12 @@
 # if an element has the 'int_name' tag and the 'name' tag then name is
 # reset to be the value of the 'int_name' tag.
 
+#name-tag-list = name:ru, name, name:en
+
 # The levels specification for this style
 # 
-levels = 0:24, 1:22, 2:21, 3:19, 4:18, 5:16
+#levels = 0:24, 1:22, 2:20, 3:18, 4:16
 
-# name-tag-list = name:ru,name,name:en,int_name
-# name-tag-list = name:cz,name,name:en,int_name
+#extra-used-tags= name hello world
+
+levels = 0:24, 1:23, 2:22, 3:21, 4:20, 5:19, 6:18, 7:16

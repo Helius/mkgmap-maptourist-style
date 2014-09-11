@@ -8,173 +8,105 @@
 # and http://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
 # for more information.
 
-highway=* & amenity=fuel | amenity=fuel & area=yes 
-	{delete highway; set highway=rest_area; set area=yes}
+include 'trueyes';
+include 'status';
+include 'address';
 
-# first set the country code
-mkgmap:country!=* & mkgmap:admin_level2=* { set mkgmap:country='${mkgmap:admin_level2}' }
-mkgmap:country!=* & addr:country=* { set mkgmap:country='${addr:country}' }
-mkgmap:country!=* & is_in:country=* { set mkgmap:country='${is_in:country}' }
+aeroway=airport {set name='${name}, аэропорт' | 'аэропорт' } [0x07 resolution 16]
+aeroway=aerodrome {set name='${name}, аэродром' | 'аэродром' } [0x07 resolution 16]
+aeroway=helipad {set name='${name}, вертолётная площадка' | 'вертолётная площадка' } [0x0e resolution 20]
 
-# country specific rules first
-
-# Netherlands = NLD
-mkgmap:country=NLD & mkgmap:region!=* & mkgmap:admin_level4=* { set mkgmap:region='${mkgmap:admin_level4}' }
-mkgmap:country=NLD & mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' } 
-mkgmap:country=NLD & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' } 
-
-# Germany = DEU cities
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' } 
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' } 
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level6=* { set mkgmap:city='${mkgmap:admin_level6}' } 
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' } 
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' } 
-
-
-mkgmap:country=AUT & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=BEL & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=CZE & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=CZE & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' }
-mkgmap:country=DNK & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=DNK & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' }
-mkgmap:country=FIN & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=FIN & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=FRA & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=FRA & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=ISL & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=ITA & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=LUX & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=NOR & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=POL & mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' }
-mkgmap:country=POL & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=PRT & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=PRT & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=SVN & mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' }
-mkgmap:country=ESP & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=SWE & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=SWE & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' }
-mkgmap:country=CHE & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-# Russia
-mkgmap:country=RUS & mkgmap:city!=* & (mkgmap:admin_level4='Санкт-Петербург' | mkgmap:admin_level4='Москва') { set mkgmap:city='${mkgmap:admin_level4}' }
-mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level6=* { set mkgmap:city='${mkgmap:admin_level6}' }
-# mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
- 
-# common rules for all the rest of countries
-# mkgmap:region!=* & mkgmap:admin_level6=* { set mkgmap:region='${mkgmap:admin_level6}' } 
-# mkgmap:region!=* & mkgmap:admin_level5=* { set mkgmap:region='${mkgmap:admin_level5}' } 
-mkgmap:region!=* & mkgmap:admin_level4=* { set mkgmap:region='${mkgmap:admin_level4}, ${mkgmap:admin_level6}' } 
-mkgmap:region!=* & mkgmap:admin_level3=* { set mkgmap:region='${mkgmap:admin_level3}' } 
-mkgmap:region!=* & is_in:county=* { set mkgmap:region='${is_in:county}' } 
-
-mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' } 
-mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' } 
-mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' } 
-mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' } 
-mkgmap:city!=* & is_in:city=* { set mkgmap:city='${is_in:city}' }
-mkgmap:city!=* & addr:city=* { set mkgmap:city='${addr:city}' }
-mkgmap:city!=* & (name=* & place=*) { set mkgmap:city='${name}' } # название НП в адрес
-
-mkgmap:postal_code!=* & mkgmap:postcode=* { set mkgmap:postal_code='${mkgmap:postcode}' } 
-mkgmap:postal_code!=* & addr:postcode=* { set mkgmap:postal_code='${addr:postcode}' } 
-
-mkgmap:street!=* & addr:street=* { set mkgmap:street='${addr:street}' }
-addr:street=* { set addr:street='${addr:street|subst:улица=> ул.
-			|subst:переулок=> пер.
-			|subst:проспект=> пр-т
-			|subst:проезд=> пр-д
-			|subst:разъезд=> раз.
-			|subst:тракт=> тр-т
-			|subst:площадь=> пл.
-			|subst:имени=> им.
-			|subst:бульвар=> бл-р
-			|subst:шоссе=> ш.
-			|subst:дорога=> дор.
-			|subst:тупик=> туп.
-			|subst:микрорайон=> мкр
-			|subst:аллея=> алл.
-			|subst:линия=> лин.
-			|subst:набережная=> наб.}'
-
-
-mkgmap:street!=* & addr:housename=* { set mkgmap:street='${addr:housename}' }
-
-mkgmap:housenumber!=* & addr:housenumber=* { set mkgmap:housenumber='${addr:housenumber}' }
-
-mkgmap:phone!=* & phone=* { set mkgmap:phone='${phone}' }
-mkgmap:phone!=* & contact:phone=* { add mkgmap:phone='${contact:phone}' }
-
-mkgmap:is_in!=* & is_in=* { set mkgmap:is_in='${is_in}' }
-
-aeroway=airport [0x07 resolution 18]
-aeroway=aerodrome [0x07 resolution 18]
-aeroway=helipad [0x0e resolution 20]
-
-amenity=kindergarten [0x0a resolution 24 continue]
+amenity=kindergarten & building=* | building=kindergarten [0x25 resolution 24]
+amenity=kindergarten [0x26 resolution 21]
 amenity=cafe | amenity=fast_food | amenity=restaurant | amenity=food_court [0x08 resolution 22]
-amenity=college [0x0a resolution 24 continue]
-amenity=grave_yard [0x1a resolution 21]
-amenity=hospital [0x0b resolution 21]
-amenity=nursing_home [0x0b resolution 21]
-
-amenity=parking | parking=surface [0x05 resolution 24]
-parking=underground | parking=multi-storey [0x05 resolution 24]
-landuse=garages [0x06 resolution 24]
-
-amenity=prison [0x04 resolution 22]
-amenity=school [0x0a resolution 24 continue]
-amenity=baby_hatch [0x0a resolution 24 continue]
+( amenity=college | amenity=school | amenity=university ) & building=* [0x0a resolution 24]
+amenity=college | amenity=school | amenity=university [0x24 resolution 21]
+amenity=grave_yard [0x1a resolution 19]
+( amenity=hospital | amenity=doctors ) & building=* [0x0b resolution 24]
+amenity=hospital | amenity=doctors [0x21 resolution 21]
+amenity=nursing_home [0x0b resolution 22]
+parking=underground | parking=multi-storey [0x06 resolution 21]
+amenity=parking | parking=surface [0x05 resolution 21]
+amenity=prison [0x04 resolution 20]
 # amenity=supermarket is superceded by shop=supermarket or landuse=retail
-amenity=supermarket [0x08 resolution 21]
-amenity=university [0x0a resolution 24 continue]
+amenity=supermarket [0x08 resolution 22]
+amenity=marketplace [0x2a resolution 20]
+amenity=fire_station & building=yes [0x13 resolution 24]
+amenity=fire_station [0x0c resolution 21]
 
 healthcare=* [0x0b resolution 21]
 
-landuse=allotments [0x4e resolution 21]
-landuse=basin [0x3f resolution 21 default_name 'пруд']
-landuse=cemetary [0x1a resolution 21]
-landuse=cemetery [0x1a resolution 21]
-landuse=commercial [0x0c resolution 21]
-landuse=construction [0x0c resolution 21]
-# landuse=farm перенесен в landuse=farmland
-# landuse=farm [0x4e resolution 21]
-landuse=farmyard [0x4e resolution 21]
-landuse=forest [0x15 resolution 21]
-landuse=greenfield [0x17 resolution 21]
-landuse=industrial [0x0c resolution 21]
-power=station [0x0c resolution 21]
-# трава, лужайки, газоны
-landuse=meadow | landuse=grass [0x18 resolution 21]
-landuse=military [0x04 resolution 21]
-landuse=quarry [0x0c resolution 21 continue]
-landuse=recreation_ground [0x50 resolution 21]
-# защита от противоречивых тегов landuse= и natural= (пример - Рыбинка)
-landuse=reservoir & natural!=* [0x3f resolution 19]
-man_made=wastewater_plant [0x3f resolution 19 default_name 'отстойник']
+landuse=allotments [0x4e resolution 20]
+landuse=basin [0x3f resolution 18]
+landuse=cemetary [0x1a resolution 18]
+landuse=cemetery [0x1a resolution 18]
+landuse=commercial [0x2a resolution 18]
+landuse=construction [0x10f01 resolution 20]
+landuse=farm | landuse=farmland [0x2b resolution 18]
+landuse=farmyard [0x4e resolution 18]
+landuse=greenfield [0x11517 resolution 18]
+landuse=industrial | landuse=peat_cutting [0x0c resolution 18]
+landuse=meadow | natural=grassland | natural=grass [0x11517 resolution 18]
+landuse=military | landuse=restricted [0x04 resolution 18]
+landuse=quarry [0x1d resolution 18]
+landuse=recreation_ground [0x17 resolution 18]
+landuse=reservoir [0x3f resolution 18]
 # on resolution 24, display building=* instead of landuse=residential
-landuse=residential & place!=* {name '${name} (${cladr:suffix})' | '${name}'} [0x10 resolution 21]
-landuse=retail [0x08 resolution 21]
-landuse=village_green [0x18 resolution 21]
-landuse=vineyard [0x4e resolution 21]
-landuse=wood [0x50 resolution 21]
-landuse=landfill [0x0f resolution 21]
+landuse=residential & place!=locality & place!=hamlet & place!=village & place!=allotments [0x02 resolution 17]
+landuse=retail [0x2a resolution 20]
+landuse=village_green [0x17 resolution 20]
+landuse=vineyard [0x1151f resolution 19]
+landuse=orchard [0x11601 resolution 19]
+landuse=garages [0x22 resolution 19]
+landuse=railway [0x23 resolution 19]
+landuse=ice_rink [0x2c resolution 20]
+landuse=grass [0x30 resolution 20]
+landuse=plant_nursery [0x11602 resolution 20]
+landuse=salt_pond [0x11603 resolution 19]
 
-leisure=common [0x18 resolution 21]
-leisure=garden [0x17 resolution 21]
-leisure=golf_course [0x21 resolution 21]
-leisure=ice_rink [0x19 resolution 24 default_name 'каток']
-leisure=marina [0x09 resolution 21]
-leisure=nature_reserve | leisure=natural_reserve | landuse=nature_reserve | landuse=natural_reserve [0x16 resolution 19-18 continue]
-leisure=park [0x17 resolution 21]
-leisure=pitch { name '${name} (${sport})' | '${name}' } [0x19 resolution 24 default_name 'площадка']
-leisure=playground [0x17 resolution 21]
-leisure=recreation_ground [0x50 resolution 19]
-leisure=sports_center | leisure=sports_centre { name '${name} (${sport})' | '${name}' } [0x24 resolution 22]
-leisure=stadium { name '${name} (${sport})' | '${name}' } [0x19 resolution 22]
-leisure=swimming_pool | amenity=swimming_pool {set sport=swimming}
-leisure=swimming_pool { name 'д${addr:housenumber} (${name}) ${addr:street}' | 'д${addr:housenumber} ${addr:street}' | 'д${addr:housenumber}'} [0x19 resolution 24 default_name 'бассейн']
-leisure=track { name '${name} (${sport})' | '${name}' } [0x19 resolution 24]
-leisure=water_park [0x09 resolution 18]
+# удаляем из обработки линий полигоны дорог. 
+# данный блок полностью дублируется в lines и polygons
+# потому что полигоны дорог могут быть как way так и multypolygon
+# при этом блок lines обрабатывается первым и необходимо исключить их из роутинга
+highway=residential & area=yes {set area:highway=residential; delete highway;}
+highway=service & area=yes {set area:highway=service; delete highway;}
+highway=footway & area=yes {set area:highway=footway; delete highway;}
+highway=pedestrian & area=yes {set area:highway=pedestrian; delete highway;}
+highway=path & area=yes {set area:highway=path; delete highway;}
+highway=platform {set area:highway=platform; delete highway;}
+highway=rest_area {set area:highway=service; delete highway;}
+
+area:highway=motorway | area:highway=trunk | area:highway=secondary [0x2e resolution 19]
+area:highway=primary [0x2e resolution 19]
+area:highway=tertiary [0x2e resolution 19]
+area:highway=service [0x2e resolution 19]
+area:highway=pedestrian [0x2d resolution 19]
+area:highway=residential [0x11607 resolution 19]
+area:highway=footway [0x2d resolution 19]
+man_made=pier [0x1151c resolution 20]
+area:highway=platform [0x23 resolution 20]
+railway=platform [0x23 resolution 20]
+#area:highway=* [0x2e resolution 21]
+
+leisure=pitch & sport=hockey | leisure=pitch & sport=skating [0x2c resolution 20]
+leisure=common | (amenity=place_of_worship & building!=* ) [0x2d resolution 20]
+leisure=garden [0x17 resolution 20]
+leisure=golf_course [0x18 resolution 20]
+leisure=ice_rink [0x19 resolution 21]
+leisure=marina [0x09 resolution 20]
+leisure=nature_reserve [0x16 resolution 16]
+leisure=park [0x17 resolution 20]
+#leisure=pitch { name '${name} (${sport})' | '${name}' } [0x19 resolution 20]
+leisure=pitch [0x19 resolution 20]
+leisure=playground [0x17 resolution 20]
+leisure=recreation_ground [0x19 resolution 18]
+#leisure=sports_center | leisure=sports_centre { name '${name} (${sport})' | '${name}' } [0x19 resolution 20]
+( leisure=sports_center | leisure=sports_centre ) & building=yes [0x1151a resolution 20]
+leisure=sports_center | leisure=sports_centre [0x19 resolution 20]
+leisure=stadium { name '${name} (${sport})' | '${name}' } [0x19 resolution 19]
+leisure=track { name '${name} (${sport})' | '${name}' } [0x19 resolution 19]
+leisure=water_park [0x11608 resolution 19]
+leisure=swimming_pool { name '${name}, бассейн' | 'бассейн' } [0x11609 resolution 19]
 
 military=airfield [0x04 resolution 18]
 military=barracks [0x04 resolution 18]
@@ -182,146 +114,64 @@ military=danger_area [0x04 resolution 18]
 military=range [0x04 resolution 18]
 
 natural=glacier [0x4d resolution 16]
-natural=marsh [0x51 resolution 21 continue]
-natural=mud [0x51 resolution 21 continue]
-natural=wetland [0x51 resolution 21 continue]
-natural=scrub [0x4f resolution 21]
+natural=marsh [0x51 resolution 18]
+natural=mud [0x51 resolution 18 continue]
+
+(natural=wetland & wetland!=tidalflat) & area_size() > 3000 [0x51 resolution 18 continue]
+(natural=wetland & wetland!=tidalflat) & area_size() <= 3000 [0x51 resolution 21 continue]
+
+water=tidal | wetland=tidalflat | tidal=yes [0x1151b resolution 19 continue]
+
+natural=scrub & area_size() > 2000 [0x4f resolution 19]
+natural=scrub & area_size() <= 2000 [0x4f resolution 22]
+
+natural=water & area_size() > 5000 [0x3c resolution 16]
+natural=water & area_size() > 3000 & area_size() <= 5000 [0x3c resolution 20]
+natural=water & area_size() <= 3000 [0x3c resolution 22]
+
 natural=waterfall | waterway=waterfall [0x47 resolution 21]
-natural=sea | natural=bay [0x32 resolution 16 continue]
-natural=wood & wood=coniferous [0x10100 resolution 21]
-natural=wood & wood=deciduous [0x10101 resolution 21]
-natural=wood [0x50 resolution 21]
+natural=sea | natural=bay [0x32 resolution 10 continue]
 
-# Некоторые большие озера видно везде. Остальные только ниже.
-natural=water   & name!='Онежское озеро' 
-		& name!='Рыбинское водохранилище' 
-		& name!='Ильмень' 
-		& name!='Чудское' 
-		& name!='Белое озеро' 
-		& name!='озеро Байкал' 
-		& name!='оз. Ханка' 
-		& name!='Воткинское водохранилище' 
-		& name!='Куйбышевское водохранилище' 
-		& name!='Братское водохранилище' 
-			[0x3c resolution 18 continue]
+wood=coniferous [0x11604 resolution 20]
+wood=deciduous [0x11605 resolution 20]
+wood=mixed [0x11606 resolution 20]
+wood:density=sparse | wood:density=very_sparse [0x1160a resolution 20]
+wood:damage=dead_wood | wood:lost=dead_wood [0x1160b resolution 20]
+wood:damage=burnt | wood:lost=burnt [0x1160b resolution 20]
+wood:damage=windfall | wood:lost=windfall [0x1160d resolution 20]
+wood=logging | landuse=logging [0x1160c resolution 20]
 
-natural=water & name='Онежское озеро' 
-		| name='Рыбинское водохранилище' 
-		| name='Ильмень' 
-		| name='Чудское' 
-		| name='Белое озеро' 
-		| name='озеро Байкал' 
-		| name='оз. Ханка' 
-		| name='Воткинское водохранилище' 
-		| name='Куйбышевское водохранилище' 
-		| name='Братское водохранилище' 
-			[0x3c resolution 16]
 
-natural=beach | natural=sand [0x10c06 resolution 21]
+(landuse=forest | natural=wood | landuse=wood) & area_size() > 5000 [0x50 resolution 18]
+(landuse=forest | natural=wood | landuse=wood) & area_size() > 3000 & area_size() <= 5000 [0x50 resolution 20]
+(landuse=forest | natural=wood | landuse=wood) & area_size() <= 3000 [0x50 resolution 22]
 
-### сокращение статусов НП
-cladr:suffix='Город'
-| cladr:suffix='город' 			{set cladr:suffix = 'г.' }
-cladr:suffix='Деревня'
-| cladr:suffix='деревня' 		{set cladr:suffix = 'д.' }
-cladr:suffix='Дачный поселок'
-| cladr:suffix='дачный поселок'
-| cladr:suffix='Дачный посёлок'
-| cladr:suffix='дачный посёлок'		{set cladr:suffix = 'дачн. п.' }
-cladr:suffix='Железнодорожная станция'
-| cladr:suffix='железнодорожная станция' {set cladr:suffix = 'ж/д ст.' }
-cladr:suffix='Поселок'
-| cladr:suffix='Посёлок' 
-| cladr:suffix='поселок' 
-| cladr:suffix='посёлок'		{set cladr:suffix = 'п.' }
-cladr:suffix='Поселок городского типа'
-| cladr:suffix='Посёлок городского типа'
-| cladr:suffix='посёлок городского типа'
-| cladr:suffix='поселок городского типа'{set cladr:suffix = 'пгт' }
-cladr:suffix='почтовое отделение'
-| cladr:suffix='Почтовое отделение'	{set cladr:suffix = 'п/о.' }
-cladr:suffix='Рабочий поселок'
-| cladr:suffix='Рабочий посёлок'
-| cladr:suffix='рабочий посёлок'
-| cladr:suffix='рабочий поселок' 	{set cladr:suffix = 'раб. п.' }
-cladr:suffix='Село'
-| cladr:suffix='село'			{set cladr:suffix = 'с.' }
-cladr:suffix='Станица'
-| cladr:suffix='станица' 		{set cladr:suffix = 'стан.' }
-cladr:suffix='Станция'
-| cladr:suffix='станция' 		{set cladr:suffix = 'ст.' }
-cladr:suffix='садовое неком-е товарищество'
-| cladr:suffix='садовое некоммерческое товарищество'	{set cladr:suffix = 'снт' }
-cladr:suffix='Хутор' 			{set cladr:suffix = 'х.' }
+(natural=beach | natural=sand) & area_size() > 2000  [0x11519 resolution 19]
+(natural=beach | natural=sand) & area_size() <= 2000  [0x11519 resolution 22]
 
-### имя НП с сокращенным статусом в конце
-# boundary=administrative & name=* [0x01 resolution 19]
-# place=town & boundary=administrative 		{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x01 resolution 19]
-# place=city & boundary=administrative 		{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x01 resolution 19]
-# place=village & boundary=administrative 	{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x03 resolution 19]
-# place=hamlet & boundary=administrative 	{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x03 resolution 21]
-###
-place=town 		{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x01 resolution 19]
-place=city 		{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x02 resolution 19]
-place=suburb 		{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x02 resolution 19]
-place=village 		{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x03 resolution 21]
-place=hamlet 		{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x03 resolution 22]
-place=locality 		{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x03 resolution 22]
-place=isolated_dwelling {name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x03 resolution 22]
+natural=heath [0x11518 resolution 19]
+natural=fell [0x1151d resolution 19]
 
+place=village | place=hamlet | place=locality | place=allotments [0x03 resolution 18]
 place=island & name=* [0x53 resolution 18]
-place=islet & name=* [0x53 resolution 19]
+place=islet & name=* [0x53 resolution 20]
 
-shop=* [0x08 resolution 21]
+building=yes & shop=* [0x08 resolution 21]
+shop=* [0x2a resolution 21]
 
-# squares and plazas
-highway=pedestrian & area=yes 
-	| highway=rest_area & area=yes
-	| highway=living_street & area=yes 
-	| highway=residential & area=yes 
-	| highway=unclassified & area=yes [0x0d resolution 21]
+(waterway=rapids | rapids=yes | waterway=rapid | whitewater=rapid | whitewater=rapids | natural=rapids) & area=yes {name '${name|def:} ${width|def:}' } [0x1151e resolution 19 continue]
+waterway=riverbank [0x46 resolution 16]
 
-# other highways that have area=yes set must be parking lots
-highway=* & area=yes [0x05 resolution 21]
-
-waterway=riverbank [0x46 resolution 19 continue]
-
-historic=museum | historic=memorial [0x1e resolution 21]
+historic=museum | historic=memorial [0x1e resolution 20]
 historic=archaeological_site | historic=ruins [0x1e resolution 21]
-historic=ruins & building=yes [0x13 resolution 24]
+
+power=station | power=sub_station [0x1b resolution 19]
+man_made=dyke [0x1c resolution 20]
+
 
 # building tag should be last
-# building=* | man_made=* | amenity=* | tourism=* [0x13 resolution 24]
-tourism=attraction & building!=* [0x0d resolution 21]
-
-# Пирсы в площади а не здания
-man_made=pier  [0x0d resolution 21]
-
-# здания с улицами, номерами домов и, если есть, с названиями
-man_made=* | tourism=* & area!=yes { name 'д${addr:housenumber} (${name}) ${addr:street}' | 'д${addr:housenumber} ${addr:street}' | 'д${addr:housenumber}'} [0x13 resolution 24]
-(building=* | bridge=yes & area=yes) { name 'д${addr:housenumber} (${name}) ${addr:street}' | 'д${addr:housenumber} ${addr:street}' | 'д${addr:housenumber}'} [0x13 resolution 24]
-
-# My
-landuse=peat_cutting [0x10102 resolution 19]
-
-# моря в озера
-# natural=coastline [0x003f resolution 16 continue]
-
-# place=town & landuse=residential [0x01 resolution 16 continue]
-# place=city & landuse=residential [0x01 resolution 16 continue]
-# place=village & landuse=residential [0x03 resolution 19 continue]
-# place=hamlet & landuse=residential [0x03 resolution 21 continue]
-
-natural=heath | natural=grassland [0x18 resolution 21]
-
-# поля и огороды
-landuse=farmland [0x10f00 resolution 21]
-landuse=farm [0x10f00 resolution 21]
-
-natural=cliff [0x10118 resolution 21]
-
-# boundary=administrative & admin_level=4 & name='Тверская область' [0x4b resolution 16 continue]
-# boundary=administrative & admin_level=4 & name='Новгородская область' [0x4b resolution 16 continue]
-# boundary=administrative & admin_level=4 & name='Костромская область' [0x4b resolution 16 continue]
-# boundary=administrative & admin_level=4 & name='Вологодская область' [0x4b resolution 16 continue]
-# boundary=administrative & admin_level=4 & name='Ярославская область' [0x4b resolution 16 continue]
+building=garage | building=garages [0x27 resolution 24]
+building=shelter [0x2f resolution 24]
+building=* { name '${addr:housenumber} (${name}, ${name:full})' | '${addr:housenumber} (${name})' | '${name} (${name:full})' | '${name}' | '${name:full}' | '${addr:housenumber}' } [0x13 resolution 24]
+tourism=* [0x17 resolution 21]
+man_made=* | amenity=* [0x13 resolution 24]

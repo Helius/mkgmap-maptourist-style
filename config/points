@@ -7,485 +7,341 @@
 # See http://wiki.openstreetmap.org/wiki/Mkgmap/help/style_rules
 # and http://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
 # for more information.
-
 # first set the country code
-mkgmap:country!=* & mkgmap:admin_level2=* { set mkgmap:country='${mkgmap:admin_level2}' }
-mkgmap:country!=* & addr:country=* { set mkgmap:country='${addr:country}' }
-mkgmap:country!=* & is_in:country=* { set mkgmap:country='${is_in:country}' }
 
-# country specific rules first
+include 'trueyes';
+include 'status';
+include 'address';
+internet_access=yes { name 'Internet ${name}' | 'Internet' } [0x2f12 resolution 24 continue]
+internet_access=* & internet_access!=no & internet_access!=yes { name 'Internet(${internet_access}) ${name|def:}' } [0x2f12 resolution 24 continue]
 
-# Netherlands = NLD
-mkgmap:country=NLD & mkgmap:region!=* & mkgmap:admin_level4=* { set mkgmap:region='${mkgmap:admin_level4}' }
-mkgmap:country=NLD & mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' } 
-mkgmap:country=NLD & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' } 
+#aeroway=airport {set name='${name}, аэропорт' | 'аэропорт' } [0x5900 resolution 16]
+aeroway=airport {set name='${name}, аэропорт' | 'аэропорт' } [0x2f04 resolution 16]
+aeroway=aerodrome {set name='${name}, аэродром' | 'аэродром' } [0x2f04 resolution 16]
+aeroway=helipad {set name='${name}, вертолётная площадка' | 'вертолётная площадка' } [0x5904 resolution 18]
+aeroway=terminal {set name='${name}, терминал' | 'терминал' } [0x2f04 resolution 20]
 
-# Germany = DEU cities
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' } 
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' } 
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level6=* { set mkgmap:city='${mkgmap:admin_level6}' } 
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' } 
-mkgmap:country=DEU & mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' } 
-
-
-mkgmap:country=AUT & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=BEL & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=CZE & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=CZE & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' }
-mkgmap:country=DNK & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=DNK & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' }
-mkgmap:country=FIN & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=FIN & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=FRA & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=FRA & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=ISL & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=ITA & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=LUX & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=NOR & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=POL & mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' }
-mkgmap:country=POL & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=PRT & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=PRT & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=SVN & mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' }
-mkgmap:country=ESP & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=SWE & mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' }
-mkgmap:country=SWE & mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' }
-mkgmap:country=CHE & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-# Russia
-mkgmap:country=RUS & mkgmap:city!=* & (mkgmap:admin_level4='Санкт-Петербург' | mkgmap:admin_level4='Москва') { set mkgmap:city='${mkgmap:admin_level4}' }
-mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
-mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level6=* { set mkgmap:city='${mkgmap:admin_level6}' }
-# mkgmap:country=RUS & mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' }
- 
-# common rules for all the rest of countries
-# mkgmap:region!=* & mkgmap:admin_level6=* { set mkgmap:region='${mkgmap:admin_level6}' } 
-# mkgmap:region!=* & mkgmap:admin_level5=* { set mkgmap:region='${mkgmap:admin_level5}' } 
-mkgmap:region!=* & mkgmap:admin_level4=* { set mkgmap:region='${mkgmap:admin_level4}, ${mkgmap:admin_level6}' } 
-mkgmap:region!=* & mkgmap:admin_level3=* { set mkgmap:region='${mkgmap:admin_level3}' } 
-mkgmap:region!=* & is_in:county=* { set mkgmap:region='${is_in:county}' } 
-
-mkgmap:city!=* & mkgmap:admin_level8=* { set mkgmap:city='${mkgmap:admin_level8}' } 
-mkgmap:city!=* & mkgmap:admin_level7=* { set mkgmap:city='${mkgmap:admin_level7}' } 
-mkgmap:city!=* & mkgmap:admin_level9=* { set mkgmap:city='${mkgmap:admin_level9}' } 
-mkgmap:city!=* & mkgmap:admin_level10=* { set mkgmap:city='${mkgmap:admin_level10}' } 
-mkgmap:city!=* & is_in:city=* { set mkgmap:city='${is_in:city}' }
-mkgmap:city!=* & addr:city=* { set mkgmap:city='${addr:city}' }
-mkgmap:city!=* & (name=* & place=*) { set mkgmap:city='${name}' } # название НП в адрес
-
-mkgmap:postal_code!=* & mkgmap:postcode=* { set mkgmap:postal_code='${mkgmap:postcode}' } 
-mkgmap:postal_code!=* & addr:postcode=* { set mkgmap:postal_code='${addr:postcode}' } 
-
-mkgmap:street!=* & addr:street=* { set mkgmap:street='${addr:street|subst:улица=> ул.
-			|subst:переулок=> пер.
-			|subst:проспект=> пр-т
-			|subst:проезд=> пр-д
-			|subst:разъезд=> раз.
-			|subst:тракт=> тр-т
-			|subst:площадь=> пл.
-			|subst:имени=> им.
-			|subst:бульвар=> бл-р
-			|subst:шоссе=> ш.
-			|subst:дорога=> дор.
-			|subst:тупик=> туп.
-			|subst:микрорайон=> мкр
-			|subst:аллея=> алл.
-			|subst:линия=> лин.
-			|subst:набережная=> наб.}'
-
-mkgmap:street!=* & addr:housename=* { set mkgmap:street='${addr:housename}' }
-
-mkgmap:housenumber!=* & addr:housenumber=* { set mkgmap:housenumber='${addr:housenumber}' }
-
-mkgmap:phone!=* & phone=* { set mkgmap:phone='${phone}' }
-mkgmap:phone!=* & contact:phone=* { add mkgmap:phone='${contact:phone}' }
-
-mkgmap:is_in!=* & is_in=* { set mkgmap:is_in='${is_in}' }
-
-internet_access=* { name '${internet_access|subst:yes=>Internet} ${name|def:}' } [0x2f12 resolution 21 continue default_name 'интернет']
-
-#aeroway=airport [0x5900 resolution 18]
-aeroway=airport [0x2f04 resolution 18 default_name 'аэропорт']
-aeroway=aerodrome [0x2f04 resolution 18 default_name 'аэродром']
-aeroway=helipad [0x5904 resolution 21 default_name 'вертолетная']
-aeroway=terminal [0x2f04 resolution 21 default_name 'терминал']
-
-amenity=airport [0x2f04 resolution 18 default_name 'аэропорт']
-amenity=atm { name '${operator}: ${name}' | '${name}' | '${operator}' } [0x2f06 resolution 24 default_name 'банкомат']
-amenity=arts_centre [0x2c04 resolution 24 default_name 'выставочный центр']
-amenity=bank { name '${name} (${operator})' | '${name}' | '${operator}' } [0x2f06 resolution 24 default_name 'банк']
-amenity=bar [0x2d02 resolution 24 default_name 'бар']
-amenity=biergarten [0x2d02 resolution 24 default_name 'пивной сад']
-amenity=border_control | barrier=border_control [0x3006 resolution 21 default_name 'погранпереход']
-amenity=bus_station [0x2f08 resolution 21 default_name 'автовокзал']
-amenity=cafe [0x2a0e resolution 24 default_name 'кафе']
-amenity=car_club [0x2f0d resolution 24 default_name 'автоклуб']
-amenity=car_rental [0x2f02 resolution 24 default_name 'аренда машин']
-amenity=car_sharing [0x2f02 resolution 24 default_name 'каршаринг']
-amenity=car_wash [0x2f0e resolution 24 default_name 'автомойка']
-amenity=casino [0x2d04 resolution 24 default_name 'казино']
-amenity=cinema [0x2d03 resolution 24 default_name 'кинотеатр']
-amenity=college [0x2c05 resolution 24 default_name 'колледж']
-amenity=concert_hall [0x2c09 resolution 24 default_name 'концертный зал']
-amenity=conference_centre [0x2c09 resolution 24 default_name 'конференц центр']
-amenity=convention_center [0x2c09 resolution 24 default_name 'конференц центр']
-amenity=community_centre [0x3005 resolution 24 default_name 'общественный центр']
-amenity=community_center [0x3005 resolution 24 default_name 'общественный центр']
-amenity=courthouse [0x3004 resolution 24 default_name 'суд']
-amenity=doctors [0x3002 resolution 24 default_name 'поликлиника']
-amenity=dentist [0x3002 resolution 24 default_name 'стоматология']
-amenity=clinic [0x3002 resolution 24 default_name 'клиника']
-amenity=drinking_water | man_made=water_well [0x5000 resolution 24 default_name 'вода']
-amenity=embassy & country=* { name '${country} ${name|def:}' } [0x3003 resolution 24 default_name 'посольство']
-amenity=embassy & country!=* [0x3003 resolution 24 default_name 'посольство']
-amenity=emergency_phone [0x2f12 resolution 21 default_name 'экстренный телефон']
-# amenity=ferry_terminal [0x2f08 resolution 19]
-amenity=ferry_terminal [0x4300 resolution 21 default_name 'паромный причал']
-amenity=fast_food & cuisine=grill [0x2a03 resolution 24 default_name 'гриль']
-amenity=fast_food & cuisine ~ '.*pizza.*' [0x2a0a resolution 24 default_name 'пицца']
-amenity=fast_food [0x2a07 resolution 24 default_name 'быстрое питание']
-amenity=fire_station [0x3008 resolution 24 default_name 'пожарная часть']
-amenity=food_court [0x2a13 resolution 24 default_name 'кафе']
-amenity=fuel & fuel:lpg=yes { name '${name}' | '${operator}' | 'АГНС'} 
-amenity=fuel { name '${name}' | '${operator}' } 
-	[0x2f01 resolution 24 continue default_name 'АЗС']
-amenity=fuel { name '${name}' | '${operator}' } 
-	[0x11603 resolution 19 continue default_name 'АЗС']
-amenity=fuel & fuel:HGV_diesel=yes [ 0x2f16 resolution 18 default_name 'азс (дизель)']
-amenity=fuel & shop=convenience [ 0x2e06 resolution 18]
-amenity=grave_yard [0x6403 resolution 24 default_name 'кладбище']
-amenity=hospital [0x3002 resolution 24 default_name 'больница']
-amenity=kindergarten [0x2c05 resolution 24 default_name 'детский сад']
-amenity=library [0x2c03 resolution 24 default_name 'библиотека']
-amenity=nightclub [0x2d02 resolution 24 default_name 'ночной клуб']
-amenity=nursing_home [0x2b04 resolution 24 default_name 'дом пристарелых']
-amenity=parking [0x2f0b resolution 24 default_name 'парковка']
-amenity=pharmacy [0x2e05 resolution 24 default_name 'аптека']
-amenity=place_of_worship [0x11602 resolution 21 continue default_name 'храм']
-amenity=place_of_worship [0x2c0b resolution 24 default_name 'храм']
-amenity=police [0x3001 resolution 24 default_name 'полиция']
-amenity=post_office [0x2f05 resolution 24 default_name 'почта']
-amenity=prison [0x3007 resolution 24 default_name 'тюрьма']
-amenity=pub [0x2d02 resolution 24 default_name 'паб']
-amenity=public_building [0x3007 resolution 24 default_name 'общественное здание']
-amenity=recycling | amenity=waste_disposal { name '${name} (${operator})' | '${name}' | '${operator}' }
-amenity=recycling | amenity=waste_disposal [0x2f15 resolution 24 default_name 'помойка']
-amenity=restaurant & cuisine=american [0x2a01 resolution 24 default_name 'американская']
-amenity=restaurant & cuisine=asian [0x2a02 resolution 24 default_name 'азиатская']
-amenity=restaurant & cuisine=bagel [0x2a0d resolution 24 default_name 'бублики']
-amenity=restaurant & cuisine=barbecue [0x2a03 resolution 24 default_name 'барбекю']
-amenity=restaurant & cuisine=british [0x2a11 resolution 24 default_name 'британская']
-amenity=restaurant & cuisine='cafe/diner' [0x2a0e resolution 24 default_name 'столовая']
-amenity=restaurant & cuisine=chinese [0x2a04 resolution 24 default_name 'китайская']
-amenity=restaurant & cuisine=deli [0x2a05 resolution 24 default_name 'дели']
-amenity=restaurant & cuisine=french [0x2a0f resolution 24 default_name 'французская']
-amenity=restaurant & (cuisine=german | cuisine=bavarian) [0x2a10 resolution 24 default_name 'германская' ]
-amenity=restaurant & cuisine=grill [0x2a03 resolution 24 default_name 'гриль']
-amenity=restaurant & cuisine=international [0x2a06 resolution 24 default_name 'международная']
-amenity=restaurant & cuisine=italian [0x2a08 resolution 24 default_name 'итальяниская']
-amenity=restaurant & cuisine=japanese [0x2a02 resolution 24 default_name 'японская']
-amenity=restaurant & cuisine=korean [0x2a02 resolution 24 default_name 'корейская']
-amenity=restaurant & cuisine=mexican [0x2a09 resolution 24 default_name 'мексиканская']
-amenity=restaurant & cuisine ~ '.*pizza.*' [0x2a0a resolution 24 default_name 'пицца']
-amenity=restaurant & cuisine=sea_food [0x2a0b resolution 24 default_name 'морепродукты']
-amenity=restaurant & cuisine=spanish [0x2a09 resolution 24 default_name 'испанская']
-amenity=restaurant & cuisine=speciality [0x2a12 resolution 24 default_name 'специальная']
-amenity=restaurant & cuisine=steak [0x2a0c resolution 24 default_name 'стейки']
-amenity=restaurant & cuisine=thai [0x2a02 resolution 24 default_name 'тайская']
-amenity=restaurant & cuisine=* [0x2a13 resolution 24 default_name 'ресторан']
-amenity=restaurant [0x2a00 resolution 24 default_name 'ресторан']
-amenity=school [0x2c05 resolution 24 default_name 'школа']
-amenity=shelter [0x2b05 resolution 24 default_name 'навес']
+amenity=atm { name 'б-т ${operator}: ${name}' | 'б-т ${name}' | 'б-т ${operator}' | 'банкомат' } [0x2f06 resolution 22]
+amenity=bureau_de_change { name 'обмен валюты: ${operator}: ${name}' | 'обмен валюты: ${name}' | 'обмен валюты: ${operator}' | 'обмен валюты' } [0x2f06 resolution 22]
+amenity=arts_centre [0x2c04 resolution 22]
+amenity=bank { name '${name} (${operator}, ${ref})' | '${name} (${ref})' | '${name} (${operator})' | '${name}' | '${operator}' | 'банк' } [0x2f06 resolution 22]
+amenity=bar {set name='${name}, бар (${phone})' |  '${name}, бар'} [0x2d02 resolution 22 default_name 'бар']
+amenity=biergarten [0x2d02 resolution 22]
+amenity=border_control | barrier=border_control [0x3006 resolution 19]
+amenity=bus_station [0x2f08 resolution 20]
+#leisure=marina [0x2f09 resolution 21]
+amenity=cafe { name '${name}, кафе (${phone})' |  '${name}, кафе' | 'кафе' } [0x2a0e resolution 22]
+amenity=car_club [0x2f0d resolution 22]
+amenity=car_rental [0x2f02 resolution 22]
+amenity=car_sharing [0x2f02 resolution 22]
+amenity=car_wash {set name='${name}, автомойка' | 'автомойка' } [0x2f0e resolution 22]
+amenity=casino {set name='${name}, казино' | 'казино' } [0x2d04 resolution 22]
+amenity=cinema {set name='${name}, кинотеатр' | 'кинотеатр' } [0x2d03 resolution 22]
+amenity=concert_hall [0x2c09 resolution 21]
+amenity=conference_centre [0x2c09 resolution 22]
+amenity=convention_center [0x2c09 resolution 22]
+amenity=community_centre [0x3005 resolution 22]
+amenity=community_center [0x3005 resolution 22]
+amenity=courthouse [0x3004 resolution 22]
+amenity=doctors [0x3002 resolution 21]
+amenity=social_facility {set name='${name}, соц. помощь' | 'соц. помощь' } [0x3002 resolution 22]
+amenity=drinking_water [0x5000 resolution 23 default_name 'вода']
+man_made=water_well [0x6414 resolution 23 default_name 'колодец']
+amenity=embassy & country=* { name '${country} ${name|def:}' } [0x3003 resolution 22]
+amenity=embassy & country!=* [0x3003 resolution 22 default_name 'посольство']
+amenity=emergency_phone [0x2f12 resolution 22 default_name 'аварийный телефон']
+amenity=ferry_terminal [0x2f08 resolution 19]
+amenity=fast_food & cuisine=grill {set name='${name}, гриль' | 'гриль' } [0x2a03 resolution 22]
+amenity=fast_food & cuisine ~ '.*pizza.*' {set name='${name}, пицца' | 'пицца' } [0x2a0a resolution 22]
+amenity=fast_food {set name='${name}, фастфуд' | 'фастфуд' } [0x2a07 resolution 22]
+amenity=fire_station [0x3008 resolution 22 default_name 'пожарная станция']
+amenity=food_court [0x2a13 resolution 22]
+amenity=fuel & fuel:HGV_diesel=yes [ 0x2f16 resolution 19 ]
+amenity=fuel & shop=convenience { name '${operator}: ${name}' | '${name}' | '${operator}' | 'АЗС-магазин' } [ 0x2e06 resolution 19 ]
+amenity=fuel { name '${operator}: ${name}' | '${name}' | '${operator}' | 'АЗС' } [0x2f01 resolution 19 ]
+amenity=grave_yard [0x6403 resolution 21]
+(amenity=hospital & mkgmap:area2poi!=true) | (amenity=hospital & name=*) [0x3002 resolution 22 default_name 'госпиталь']
+(amenity=kindergarten & mkgmap:area2poi!=true) | (amenity=kindergarten & name=*) [0x2c05 resolution 24 default_name 'детский сад']
+(amenity=school & mkgmap:area2poi!=true) | (amenity=school & name=*) [0x2c05 resolution 24]
+(amenity=college & mkgmap:area2poi!=true) | (amenity=college & name=*) [0x2c05 resolution 24]
+(amenity=university & mkgmap:area2poi!=true) | (amenity=university & name=*) [0x2c05 resolution 24]
+amenity=library [0x2c03 resolution 22 default_name 'библиотека']
+amenity=nightclub [0x2d02 resolution 22 default_name 'ночной клуб']
+amenity=nursing_home [0x2b04 resolution 22]
+amenity=parking [0x2f0b resolution 22 default_name 'парковка']
+amenity=pharmacy {set name='${name}, аптека' | 'аптека' } [0x2e05 resolution 21]
+(amenity=place_of_worship & mkgmap:area2poi!=true & place_of_worship=chapel) | (amenity=place_of_worship & name=* & place_of_worship=chapel) [0x1150d resolution 23 default_name 'часовня']
+(amenity=place_of_worship & mkgmap:area2poi!=true) | (amenity=place_of_worship & name=*) [0x6404 resolution 23 default_name 'церковь']
+amenity=police [0x3001 resolution 21 default_name 'полиция']
+amenity=post_office [0x2f05 resolution 22 default_name 'почта']
+amenity=prison [0x3007 resolution 22 default_name 'тюрьма']
+amenity=pub { name '${name}, паб (${phone})' |  '${name}, паб' | 'паб' } [0x2d02 resolution 22]
+amenity=public_building [0x3007 resolution 21 default_name 'общественное здание']
+amenity=recycling { name '${name} (${operator})' | '${name}' | '${operator}' }
+amenity=recycling [0x2f15 resolution 22]
+amenity=restaurant & cuisine=american [0x2a01 resolution 22]
+amenity=restaurant & cuisine=asian [0x2a02 resolution 22]
+amenity=restaurant & cuisine=bagel [0x2a0d resolution 22]
+amenity=restaurant & cuisine=barbecue [0x2a03 resolution 22]
+amenity=restaurant & cuisine=british [0x2a11 resolution 22]
+amenity=restaurant & cuisine='cafe/diner' [0x2a0e resolution 22]
+amenity=restaurant & cuisine=chinese [0x2a04 resolution 22]
+amenity=restaurant & cuisine=deli [0x2a05 resolution 22]
+amenity=restaurant & cuisine=french [0x2a0f resolution 22]
+amenity=restaurant & (cuisine=german | cuisine=bavarian) [0x2a10 resolution 22]
+amenity=restaurant & cuisine=grill [0x2a03 resolution 22]
+amenity=restaurant & cuisine=international [0x2a06 resolution 22]
+amenity=restaurant & cuisine=italian [0x2a08 resolution 22]
+amenity=restaurant & cuisine=japanese [0x2a02 resolution 22]
+amenity=restaurant & cuisine=korean [0x2a02 resolution 22]
+amenity=restaurant & cuisine=mexican [0x2a09 resolution 22]
+amenity=restaurant & cuisine ~ '.*pizza.*' [0x2a0a resolution 22]
+amenity=restaurant & cuisine=sea_food [0x2a0b resolution 22]
+amenity=restaurant & cuisine=spanish [0x2a09 resolution 22]
+amenity=restaurant & cuisine=speciality [0x2a12 resolution 22]
+amenity=restaurant & cuisine=steak [0x2a0c resolution 22]
+amenity=restaurant & cuisine=thai [0x2a02 resolution 22]
+amenity=restaurant & cuisine=* [0x2a13 resolution 22]
+amenity=restaurant { name '${name}, ресторан (${phone})' |  '${name}, ресторан' | 'ресторан' } [0x2a00 resolution 22]
+amenity=shelter & highway!=bus_stop {name '${name}, навес (${description})' | '${name}, навес' | 'навес' } [0x11609 resolution 23]
 # amenity=supermarket is superceded by shop=supermarket
-amenity=supermarket [0x2e02 resolution 24 default_name 'супермаркет']
-amenity=taxi [0x2f08 resolution 24 default_name 'такси']
-amenity=telephone {name '${name} ${operator}' | '${name}' 
-	| '${operator}' } [0x2f12 resolution 21 default_name 'телефон']
-amenity=theatre [0x2d01 resolution 24 default_name 'театр']
-amenity=toilets [0x4e00 resolution 24 default_name 'туалет']
-amenity=townhall [0x3003 resolution 24 default_name 'мэрия']
-amenity=university [0x2c05 resolution 24 default_name 'университет']
+amenity=supermarket [0x2e02 resolution 22]
+amenity=taxi [0x11517 resolution 24]
+amenity=telephone [0x2f12 resolution 22 default_name 'телефон']
+(amenity=theatre & mkgmap:area2poi!=true) | (amenity=theatre & name=*) [0x2d01 resolution 21 default_name 'театр']
+amenity=toilets & tourism=information [0x2f0c resolution 24]
+amenity=toilets [0x4e00 resolution 24]
+amenity=townhall [0x3003 resolution 21]
 # amenity=zoo is superceded by tourism=zoo
-amenity=zoo [0x2c07 resolution 24 default_name 'зоопарк']
+amenity=zoo {set name='${name}, зоопарк' | 'зоопарк' } [0x2c07 resolution 21]
+amenity=fountain [0x11603 resolution 23]
 
-landuse=forest & name=* [0x6618 resolution 21]
-landuse=basin & name=* [0x650f resolution 21 default_name 'пруд']
-landuse=cemetery [0x6403 resolution 21 default_name 'кладбище']
-landuse=military & name=* [0x640b resolution 21 default_name 'запретная зона']
-landuse=reservoir & name=* [0x650f resolution 21 default_name 'водохранилище']
+(landuse=forest | landuse=wood) & name=* [0x6618 resolution 21]
+landuse=cemetery [0x6403 resolution 22]
+landuse=military & mkgmap:area2poi!=true [0x640b resolution 22]
+(landuse=basin | landuse=reservoir) & mkgmap:area2poi!=true [0x650f resolution 21]
 landuse=village_green & name=* [0x2c06 resolution 21]
-landuse=wood & name=* [0x6618 resolution 21]
-landuse=retail [0x2e00 resolution 21 default_name 'торговля']
 
-healthcare=* [0x3002 resolution 21]
+healthcare=* [0x3002 resolution 20]
+
+(highway=bus_stop | railway=tram_stop)
+{
+#  set all_refs = '${all_refs}, а:(${route_a_ref})'|'${all_refs}'
+#  set all_refs = '${all_refs}, т:(${route_t_ref})'|'${all_refs}'
+#  set all_refs = '${all_refs}, м:(${route_m_ref})'|'${all_refs}'
+
+  set all_refs = 'а:(${route_a_ref}), т:(${route_t_ref}), м:(${route_m_ref})'|'а:(${route_a_ref}), т:(${route_t_ref})'| 'т:(${route_t_ref}), м:(${route_m_ref})'
+	|'а:(${route_a_ref}), м:(${route_m_ref})'|'а:(${route_a_ref})'|'т:(${route_t_ref})'|'м:(${route_m_ref})'
+}
 
 (highway=bus_stop | railway=tram_stop | railway=halt | railway=station)
 & lit=yes & (shelter=yes | covered=yes)
 {
-  set ref='${ref|def:}(${route_ref})';
+  set ref='${ref|def:} ${all_refs}';
   name '${name|def:} ${ref|def:}*${operator|def:}';
 }
 (highway=bus_stop | railway=tram_stop | railway=halt | railway=station)
 & (shelter=yes | covered=yes)
 {
-  set ref='${ref|def:}(${route_ref})';
+  set ref='${ref|def:} ${all_refs}';
   name '${name|def:} ${ref|def:}+${operator|def:}';
 }
 (highway=bus_stop | railway=tram_stop | railway=halt | railway=station)
 & (shelter=no | covered=no)
 {
-  set ref='${ref|def:}(${route_ref})';
+  set ref='${ref|def:} ${all_refs}';
   name '${name|def:} ${ref|def:}-${operator|def:}';
 }
 (highway=bus_stop | railway=tram_stop | railway=halt | railway=station)
 & (name=*|ref=*|operator=*|route_ref=*)
 {
-  set ref='${ref|def:}(${route_ref})';
+  set ref='${ref|def:} ${all_refs}';
   name '${name|def:} ${ref|def:} ${operator|def:}';
 }
 
-highway=bus_stop [0x2f08 resolution 21 default_name 'автобус']
+highway=bus_stop [0x2f17 resolution 21 default_name 'остановка']
 
 highway=motorway_junction { name '${ref} ${name}' | '${ref}' | '${name}' }
-highway=motorway_junction [0x2000 resolution 21 default_name 'съезд']
+highway=motorway_junction [0x2000 resolution 20]
 
 highway=services { name '${ref} ${name}' | '${ref}' | '${name}' }
-highway=services [0x2f03 resolution 21 default_name 'служебн.']
+highway=services [0x210f resolution 20]
 
-historic=museum [0x2c02 resolution 24 default_name 'музей']
-#historic=archaeological_site | historic=ruins [0x2c04 resolution 24 default_name 'историч.']
-historic=archaeological_site [0x2c04 resolution 24 default_name 'историч.']
-historic=memorial [0x2c04 resolution 24 default_name 'мемориал']
-historic=monument [0x2c04 resolution 24 default_name 'монумент']
-#historic=castle [0x2c04 resolution 24 default_name 'замок']
-#historic=fort [0x2c04 resolution 24 default_name 'форт']
-historic=fort [0x11604 resolution 21 default_name 'форт']
-historic=castle [0x11604 resolution 21 default_name 'замок']
-historic=ruins [0x11605 resolution 21 default_name 'историч.']
+historic=museum {set name='${name}, музей' | 'музей' } [0x10d02 resolution 22]
+historic=archaeological_site | historic=ruins {set name='${name}, руины' | 'руины' } [0x2c02 resolution 22]
+historic=memorial {set name='${name}, мемориал' | 'мемориал' } [0x2c02 resolution 23]
+historic=monument {set name='${name}, монумент' | 'монумент' } [0x11502 resolution 23]
 
-
-leisure=common & name=* [0x2c06 resolution 24]
-leisure=garden & name=* [0x2c06 resolution 24]
-leisure=golf_course [0x2d05 resolution 24 default_name 'гольф']
-leisure=ice_rink [0x2d08 resolution 24 default_name 'каток']
-leisure=marina [0x4300 resolution 24 default_name 'пристань']
+leisure=common & name=* [0x2c06 resolution 21]
+leisure=garden & name=* [0x2c06 resolution 21]
+leisure=golf_course [0x2d05 resolution 21]
+leisure=ice_rink [0x2d08 resolution 20]
+leisure=marina [0x4300 resolution 21]
 leisure=nature_reserve & name=* [0x6612 resolution 18]
-leisure=park [0x2c06 resolution 24 default_name 'парк']
-leisure=pitch & mkgmap:area2poi!=true { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 24 default_name 'площадка']
-leisure=playground & mkgmap:area2poi!=true [0x2c06 resolution 24 default_name 'детская площадка']
-leisure=recreation_ground [0x2c08 resolution 24 default_name 'зона отдыха']
-leisure=sports_center | leisure=sports_centre { name '${name} (${sport})' | '${name}' } [0x2d0a resolution 24 default_name 'спорт']
-leisure=stadium { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 24 default_name 'стадион']
-leisure=track { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 24 default_name 'стадион']
-leisure=water_park [0x2b04 resolution 24 default_name 'аквапарк']
+(leisure=park & mkgmap:area2poi!=true) | (leisure=park & name=*) [0x2c06 resolution 21]
+(leisure=pitch & mkgmap:area2poi!=true) | (leisure=pitch & name=*) { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 21]
+(leisure=playground & mkgmap:area2poi!=true) | (leisure=playground & name=*) [0x2c06 resolution 21]
+leisure=recreation_ground [0x2c08 resolution 21]
+leisure=sports_center | leisure=sports_centre { name '${name} (${sport})' | '${name}' } [0x2d0a resolution 20]
+leisure=stadium { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 21]
+leisure=track { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 21]
+leisure=water_park {set name='${name}, аквапарк' | 'аквапарк' } [0x2b04 resolution 22]
 
-man_made=tower [0x6411 resolution 22 default_name 'башня']
-power=generator & generator:source=wind [0x641a resolution 22 default_name 'ветряк']
-man_made=windmill [0x641b resolution 22 default_name 'мельница']
+man_made=tower & ( tower:type=light | tower:type=lighting ) [0x11518 resolution 23]
+man_made=tower & tower:type=communication [0x11519 resolution 23]
+man_made=tower & tower:type=fire [0x1150a resolution 22]
+man_made=tower [0x6411 resolution 23]
+man_made=chimney [0x1150b resolution 23]
+power=tower [0x11511 resolution 23]
+power=pole | power=cable_distribution_cabinet | aerialway=pylon [0x1151a resolution 24]
+man_made=survey_point | point=trigopunct | point=triangulation {name '${ref} (${name}, ${ele})' | '${ref} (${ele})' | '${ref} (${name})' | '${ref}' | '${ele}' | '${name}'} [0x11601 resolution 22]
+man_made=lighthouse | seamark=lighthouse {name '${name} (${ref}, ${ele})' | '${name} (${ele})' | '${name} (${ref})' | '${name}' | '${ele}' | '${ref}' | 'маяк' } [0x11509 resolution 20]
+man_made=beacon {name '${name} (${ref}, ${ele})' | '${name} (${ele})' | '${name} (${ref})' | '${name}' | '${ele}' | '${ref}' } [0x10206 resolution 22]
 
-# Edge 705 displays 0x650a,0x6511,0x6512,0x6513,0x6603,0x6614 as hollow white circles, no menu
-natural=peak | natural=hill {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6616 resolution 21 default_name 'вершина']
-natural=beach [0x6604 resolution 21 default_name 'пляж']
-natural=cave_entrance [0x6601 resolution 21 default_name 'пещера']
-natural=cliff {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6607 resolution 21 default_name 'утес']
-natural=glacier [0x650a resolution 21 default_name 'ледник']
-natural=rock {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6614 resolution 21 default_name 'скала']
-natural=spring [0x6511 resolution 22 default_name 'родник']
-natural=stream [0x6512 resolution 21 default_name 'ручей']
-natural=volcano {name '${name|def:}${ele|height:m=>ft|def:}' } [0x2c0c resolution 21 default_name 'вулкан']
+highway=milestone | railway=milestone | waterway=milestone
+    {name '${pk} - ${ref} (${pk:backward})' | '${pk} (${pk:backward})' | '${pk} - ${ref}' | '${pk}' | '${ref}' |  '(${pk:backward})'} [0x1151a resolution 23]
+
+traffic_calming=bump | traffic_calming=hump [0x11507 resolution 24]
+highway=traffic_signals [0x11512 resolution 24]
+highway=crossing [0x11506 resolution 24]
+
+(natural=beach & mkgmap:area2poi!=true) [0x6604 resolution 21]
+natural=cave_entrance [0x6601 resolution 20]
+natural=cliff [0x6607 resolution 21]
+natural=glacier [0x650a resolution 21]
+# из-за жёстко привязанных в гармине масштабов отображения для пиков
+# используем вместо стандартных типов свой
+# natural=peak {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6616 resolution 19]
+# natural=volcano {name '${name|def:} ${ele|def:}' } [0x2c0c resolution 21]
+natural=peak & peak=hill | natural=hill {name '${name|def:} ${ele|def:}' } [0x1160f resolution 22]
+natural=peak & name=* {name '${name|def:} ${ele|def:}' } [0x1151d resolution 20]
+natural=peak {name '${name|def:} ${ele|def:}' } [0x1151d resolution 22]
+natural=volcano {name '${name|def:} ${ele|def:}' } [0x1151e resolution 19]
+mountain_pass=yes {set name='пер. ${name} (${pass:category}, ${ele})' | 'пер. ${name} (${pass:category})' | 'пер. ${name} (${ele})' | 'пер. ${name}' |  'пер. (${ele})' | 'пер. (${pass:category})'} [0x1151c resolution 21]
+natural=rock [0x6614 resolution 21]
+natural=stone [0x1660c resolution 23]
+natural=spring {set name='${name}, родник' | 'родник' } [0x6511 resolution 22]
+natural=stream [0x6512 resolution 21]
 natural=water & name=* [0x650d resolution 21]
-natural=waterfall | waterway=waterfall [0x6508 resolution 21 default_name 'водопад']
+natural=water & water=lake & name=* {set name='${name}, озеро'} [0x650d resolution 21]
+natural=waterfall | waterway=waterfall {set name='${name}, водопад' | 'водопад' } [0x6508 resolution 22]
+natural=hot_spring [0x6509 resolution 21]
 natural=wetland & name=* [0x6513 resolution 21]
 natural=wood & name=* [0x6618 resolution 21]
+natural=tree & name=* [0x6618 resolution 24]
+natural=tree [0x6619 resolution 24]
+natural=stones {set name='кам. ${name}'} [0x1151f resolution 22]
+natural=rapids | waterway=rapids | rapids=yes | whitewater=rapid | whitewater=rapids | whitewater:rapid_grade=* | whitewater:section_grade=* {set name='пор. ${whitewater:section_name} ${whitewater:section_grade}' | 'пор. ${whitewater:rapid_name} ${whitewater:section_grade}' | 'пор. ${whitewater:rapid_name} ${whitewater:rapid_grade}' | 'пор. ${whitewater:section_name} ${whitewater:rapid_grade}' | 'пор. ${whitewater:rapid_name} ${whitewater:grade}' | 'пор. ${whitewater:section_name}' | 'пор. ${whitewater:rapid_name}' | 'пор. ${whitewater:section_grade}' | 'пор. ${whitewater:rapid_grade}' | 'порог' } [0x1151f resolution 22]
+whitewater=put_in [0x11514 resolution 23]
+whitewater=egress [0x11515 resolution 23]
+whitewater="put_in;egress" [0x1160d resolution 23]
+whitewater=hazard [0x1160e resolution 23]
+natural=dolmen | (tourism=* & name=дольмен) [0x11602 resolution 23]
+natural=bay [0x6503 resolution 21]
 
-### сокращение статусов НП
-cladr:suffix='Город'
-| cladr:suffix='город' 			{set cladr:suffix = 'г.' }
-cladr:suffix='Деревня'
-| cladr:suffix='деревня' 		{set cladr:suffix = 'д.' }
-cladr:suffix='Дачный поселок'
-| cladr:suffix='дачный поселок'
-| cladr:suffix='Дачный посёлок'
-| cladr:suffix='дачный посёлок'		{set cladr:suffix = 'дачн. п.' }
-cladr:suffix='Железнодорожная станция'
-| cladr:suffix='железнодорожная станция' {set cladr:suffix = 'ж/д ст.' }
-cladr:suffix='Поселок'
-| cladr:suffix='Посёлок' 
-| cladr:suffix='поселок' 
-| cladr:suffix='посёлок'		{set cladr:suffix = 'п.' }
-cladr:suffix='Поселок городского типа'
-| cladr:suffix='Посёлок городского типа'
-| cladr:suffix='посёлок городского типа'
-| cladr:suffix='поселок городского типа'{set cladr:suffix = 'пгт' }
-cladr:suffix='почтовое отделение'
-| cladr:suffix='Почтовое отделение'	{set cladr:suffix = 'п/о.' }
-cladr:suffix='Рабочий поселок'
-| cladr:suffix='Рабочий посёлок'
-| cladr:suffix='рабочий посёлок'
-| cladr:suffix='рабочий поселок' 	{set cladr:suffix = 'раб. п.' }
-cladr:suffix='Село'
-| cladr:suffix='село'			{set cladr:suffix = 'с.' }
-cladr:suffix='Станица'
-| cladr:suffix='станица' 		{set cladr:suffix = 'стан.' }
-cladr:suffix='Станция'
-| cladr:suffix='станция' 		{set cladr:suffix = 'ст.' }
-cladr:suffix='садовое неком-е товарищество'
-| cladr:suffix='садовое некоммерческое товарищество'	{set cladr:suffix = 'снт' }
-cladr:suffix='Хутор' 			{set cladr:suffix = 'х.' }
+place=city & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'город' } [0x0400 resolution 16]
+place=town & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'город' } [0x0800 resolution 18]
+place=suburb & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'район' } [0x0900 resolution 21]
+place=village & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'село' } [0x0a00 resolution 19]
+place=hamlet & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'деревня' } [0x0b00 resolution 21]
+place=allotments & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'дачи' } [0x0b00 resolution 21]
+place=isolated_dwelling & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'деревня' } [0x0b00 resolution 21]
+place=locality & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'урочище' } [0x0c00 resolution 21]
+place=island & mkgmap:area2poi!=true {set name='${name} (${alt_name})' | '${name}' | 'остров' } [0x650c resolution 20]
 
-# place=city [0x0100 resolution 16]
-place=city & mkgmap:area2poi!=true	{name '${name}, ${cladr:suffix}' | '${name}' | '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x0100 resolution 16 default_name 'город']
-place=suburb & mkgmap:area2poi!=true	{name '${name}, ${cladr:suffix}' | '${name}' 
-	| '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x0600 resolution 18 default_name 'пригород']
-place=town & mkgmap:area2poi!=true	{name '${name}, ${cladr:suffix}' | '${name}' 
-	| '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x0500 resolution 16 default_name 'город']
-place=village & mkgmap:area2poi!=true	{name '${name}, ${cladr:suffix}' | '${name}' 
-	| '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x0900 resolution 19 default_name 'село']
-place=hamlet & mkgmap:area2poi!=true	{name '${name}, ${cladr:suffix}' | '${name}' 
-	| '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x0b00 resolution 19 default_name 'деревня']
-place=isolated_dwelling & mkgmap:area2poi!=true	{name '${name}, ${cladr:suffix}' | '${name}' 
-	| '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x0b00 resolution 19 default_name 'хутор']
-place=island & mkgmap:area2poi!=true	{name '${name}, ${cladr:suffix}' | '${name}' 
-	| '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x650c resolution 19 default_name 'остров']
-place=locality & mkgmap:area2poi!=true	{name '${name}, ${cladr:suffix}' | '${name}' 
-	| '${place_name}, ${cladr:suffix}' | '${place_name}'} [0x0a00 resolution 21 default_name 'урочище']
+railway=halt [0x1151b resolution 21]
+railway=station [0x11508 resolution 19]
+railway=tram_stop [0x2f17 resolution 22]
 
-# перевалы
-mountain_pass=yes {name 
-	| 'пер. ${name}, ${ele} (${pass:category})'
-	| 'пер. ${name}, ${ele}'
-	| 'пер. ${ele} (${pass:category})'
-	| 'пер. ${ele}'
-	| 'пер. ${name}'
-	| 'перевал'} [0x0a00 resolution 21 default_name 'перевал']
+shop=alcohol {set name='${name}, алкоголь' | 'алкоголь' } [0x2e02 resolution 24]
+shop=bakery | shop=bakers {set name='${name}, хлеб' | 'хлеб' } [0x2e02 resolution 22]
+shop=beauty {set name='${name}, салон красоты' | 'салон красоты' } [0x2f10 resolution 22]
+shop=boutique {set name='${name}, бутик' | 'бутик' } [0x2e07 resolution 22]
+shop=bicycle {set name='${name}, велосипеды' | 'велосипеды' } [0x2f13 resolution 22]
+shop=boat {set name='${name}, лодки' | 'лодки' } [0x2e09 resolution 22]
+shop=butcher {set name='${name}, мясо' | 'мясо' } [0x2e02 resolution 22]
+shop=car {set name='${name}, автомобили' | 'автомобили' } [0x2f07 resolution 22]
+shop=car_dealer {set name='${name}, автодиллер' | 'автодиллер' } [0x2f07 resolution 22]
+shop=car_parts {set name='${name}, автозапчасти' | 'автозапчасти' } [0x2f07 resolution 22]
+shop=car_rental {set name='${name}, автопрокат' | 'автопрокат' } [0x2f02 resolution 22]
+shop=car_repair {set name='${name}, автосервис' | 'автосервис' } [0x2f03 resolution 22]
+shop=car_wrecker [0x2f0a resolution 23]
+shop=chemist {set name='${name}, парфюм' | 'парфюм' } [0x2e05 resolution 22]
+shop=clothes {set name='${name}, одежда' | 'одежда' } [0x2e07 resolution 22]
+shop=computer {set name='${name}, компьютеры' | 'компьютеры' } [0x2e0b resolution 22]
+shop=electronics | shop=radiotechnics {set name='${name}, электроника' | 'электроника' } [0x2e0b resolution 22]
+shop=hifi {set name='${name}, аудио-видео' | 'аудио-видео' } [0x2e0b resolution 22]
+shop=mobile_phone {set name='${name}, телефоны' | 'телефоны' } [0x2e0b resolution 22]
+shop=convenience {set name='${name}, продукты' | 'продукты' } [0x2e02 resolution 22]
+shop=deli {set name='${name}, яства' | 'яства' } [0x2e02 resolution 22]
+shop=department_store {set name='${name}, универсам' | 'универсам' } [0x2e01 resolution 22]
+shop=doityourself {set name='${name}, хозтовары' | 'хозтовары' } [0x2e09 resolution 22]
+shop=fashion {set name='${name}, мода' | 'мода' } [0x2e07 resolution 22]
+shop=furniture {set name='${name}, мебель' | 'мебель' } [0x2e09 resolution 22]
+shop=florist {set name='${name}, цветы' | 'цветы' } [0x2e08 resolution 22]
+shop=pet {set name='${name}, зоомагазин' | 'зоомагазин' } [0x2e0c resolution 22]
+shop=gas {set name='${name}, газ' | 'газ' } [0x2e09 resolution 22]
+shop=garden_centre | shop=garden_center {set name='${name}, садоводство' | 'садоводство' } [0x2e08 resolution 22]
+shop=general {set name='${name}, магазин' | 'магазин' } [0x2e03 resolution 22]
+shop=hardware {set name='${name}, инструменты' | 'инструменты' } [0x2e09 resolution 22]
+shop=jewelry {set name='${name}, ювелирный' | 'ювелирный' } [0x2e07 resolution 22]
+shop=hairdresser {set name='${name}, парикмахер' | 'парикмахер' } [0x2f10 resolution 22]
+shop=kiosk {set name='${name}, киоск' | 'киоск' } [0x2e02 resolution 22]
+shop=mall {set name='${name}, ТЦ' | 'торговый центр' } [0x2e04 resolution 22]
+shop=organic {set name='${name}, органика' | 'органика' } [0x2e0a resolution 22]
+shop=shoes {set name='${name}, обувь' | 'обувь' } [0x2e07 resolution 22]
+shop=seafood | shop=fish {set name='${name}, морепродукты' | 'морепродукты' } [0x2e02 resolution 22]
+shop=supermarket {set name='${name}, супермаркет' | 'супермаркет' } [0x2e02 resolution 22]
+shop=outdoor {set name='${name}, снаряжение' | 'снаряжение' } [0x2e0d resolution 22]
+shop=fishing {set name='${name}, рыбалка' | 'рыбалка' } [0x2e0d resolution 22]
+shop=hunting {set name='${name}, охота' | 'охота' } [0x2e0d resolution 22]
+shop=sports {set name='${name}, спорттовары' | 'спорттовары' } [0x2e0d resolution 22]
+shop=tires | shop=tyres {set name='${name}, автошины' | 'автошины' } [0x2f07 resolution 22]
+shop=* {set name='${name}, магазин' | 'магазин' } [0x2e0c resolution 22]
 
-# станция метро
-railway=station & station=subway [0x1613 resolution 22-19 default_name 'метро']
-railway=station & subway=yes [0x1613  resolution 22-19 default_name 'метро']
+sport=9pin [0x2d07 resolution 21]
+sport=10pin [0x2d07 resolution 21]
+sport=airport [0x2d0b resolution 20]
+sport=multi [0x2d0a resolution 21]
+sport=skating [0x2d08 resolution 21]
+sport=skiing [0x2d06 resolution 21]
+sport=swimming [0x2d09 resolution 21]
 
-railway=halt [0x2f17 resolution 24 continue default_name 'платформа']
-railway=halt [0x11601 resolution 21 default_name 'платформа']
-railway=station & !(layer<0) [0x2f17 resolution 24 continue default_name 'станция']
-railway=station & !(layer<0) [0x11601 resolution 21 default_name 'станция']
-# railway=station & (station!=subway | !(layer<0)) [0x2f17 resolution 24 continue]
-# railway=station & (station!=subway | !(layer<0)) [0x11601 resolution 21 continue]
-railway=tram_stop [0x2f08 resolution 21 default_name 'трамвай']
-
-shop=bakers [0x2e02 resolution 24 default_name 'булочная']
-shop=bakery [0x2e02 resolution 24 default_name 'булочная']
-shop=beauty [0x2f10 resolution 24 default_name 'салон красоты']
-shop=bicycle [0x2f13 resolution 24 default_name 'велосипеды']
-shop=motorcycle [0x2f13 resolution 24 default_name 'мотоциклы']
-shop=boat [0x2f09 resolution 24 default_name 'лодки']
-shop=butcher [0x2e0c resolution 24 default_name 'мясо']
-
-shop=car & service!=* [0x2f07 resolution 24 default_name 'автосалон']
-shop=car & service=* [0x2f03 resolution 24 default_name 'автосервис']
-shop=car_dealer [0x2f07 resolution 24 default_name 'автосалон']
-shop=car_parts [0x2f07 resolution 24 default_name 'автозапчасти']
-shop=car_rental [0x2f02 resolution 24 default_name 'аренда авто']
-shop=car_repair [0x2f03 resolution 24 default_name 'автосервис']
-shop=car_wrecker [0x2f0a resolution 24 default_name 'автосвалка']
-
-shop=chemist [0x2e00 resolution 24 default_name 'бытовая химия']
-shop=clothes [0x2e07 resolution 24 default_name 'одежда']
-(shop=computer | shop=electronics) [0x2e0b resolution 24 default_name 'электроника']
-shop=convenience [0x2e02 resolution 24 default_name 'магазин']
-shop=department_store [0x2e01 resolution 24 default_name 'универсам']
-shop=doityourself [0x2e09 resolution 24 default_name 'строительный']
-shop=fashion [0x2e07 resolution 24 default_name 'бутик']
-shop=furniture [0x2e09 resolution 24 default_name 'мебель']
-shop=garden_centre [0x2e08 resolution 24 default_name 'садовый']
-shop=garden_center [0x2e08 resolution 24 default_name 'садовый']
-shop=general [0x2e03 resolution 24 default_name 'магазин']
-shop=hardware [0x2e09 resolution 24 default_name 'хозяйственный']
-shop=hairdresser [0x2f10 resolution 24 default_name 'парикмахерская']
-shop=mall [0x2e04 resolution 24 default_name 'универмаг']
-shop=organic [0x2e0a resolution 24 default_name 'экопродукты']
-shop=shoes [0x2e07 resolution 24 default_name 'обувной']
-shop=supermarket [0x2e02 resolution 24 default_name 'супермаркет']
-shop=tires [0x2f07 resolution 24 default_name 'шины']
-shop=tyres [0x2f07 resolution 24 default_name 'шины']
-shop=kiosk [0x2e00 resolution 24 default_name 'ларек']
-shop=* [0x2e00 resolution 24 default_name 'магазин']
-
-sport=9pin [0x2d07 resolution 24 default_name 'боулинг-9']
-sport=10pin [0x2d07 resolution 24 default_name 'боулинг-10']
-sport=airport [0x2d0b resolution 19 default_name 'аэроклуб']
-sport=multi [0x2d0a resolution 24 default_name 'спортплощадка']
-sport=skating [0x2d08 resolution 24 default_name 'каток']
-sport=skiing [0x2d06 resolution 24 default_name 'лыжи']
-sport=swimming [0x2d09 resolution 24 default_name 'бассейн']
-
-# обходим появление точек на всех полигонах building=yes с опцией --add-pois-to-areas
-# теперь отдельные точки с building=yes не тянут за собой порождение тучи 
-# аналогичных на всех полигональных зданиях! Волшебное слово - "& mkgmap:area2poi!=true"
-tourism=alpine_hut | building=yes & mkgmap:area2poi!=true | building=true & mkgmap:area2poi!=true 
-	{name '${name} (${alt_name})'
-	| '${name}'
-	| '${description}'} [0x6402 resolution 24 continue with_actions default_name 'здание']
-
-tourism=attraction & historic=* [0x2c02 resolution 24 default_name 'историч.']
-tourism=attraction [0x2c04 resolution 24 default_name 'интересн.']
-tourism=artwork [0x2c04 resolution 24 default_name 'искусство']
-tourism=aquarium [0x2c07 resolution 24 default_name 'аквариум']
-tourism=camp_site [0x2b03 resolution 21 default_name 'стоянка']
-tourism=caravan_site [0x2b03 resolution 24 default_name 'автостоянка']
-tourism=chalet { name '${name}' | '${ref}' } [0x2b02 resolution 21 default_name 'съемный дом']
-tourism=guest_house [0x2b02 resolution 21 default_name 'гостевой дом']
-tourism=hostel [0x2b02 resolution 24 default_name 'хослел']
-tourism=hotel | tourism=motel { name '${name|def:}(${stars}*)${operator|def:}' | '${name} ${operator}' | '${name}' | '${operator}' } [0x2b01 resolution 24 default_name 'отель']
-tourism=information {name '${name} - ${description} (${operator})'|
+tourism=alpine_hut {set name='${name} (${alt_name}) - ${description}, приют' | '${name} - ${description}, приют' | '${name} (${alt_name}), приют' | '${name}, приют' | 'приют' } [0x1160a resolution 22]
+tourism=attraction & historic=* [0x2c02 resolution 20]
+tourism=attraction [0x2c04 resolution 20]
+tourism=artwork [0x2c04 resolution 20]
+tourism=aquarium [0x2c07 resolution 20]
+tourism=camp_site {set name='${name} (${alt_name}) - ${description}, кемпинг' | '${name} - ${description}, кемпинг' | '${name} (${alt_name}), кемпинг' | '${name}, кемпинг' | 'кемпинг' } [0x1160b resolution 22]
+tourism=caravan_site [0x2b03 resolution 20]
+tourism=chalet {set name='${name} (${alt_name}) - ${description}, шале' | '${name} - ${description}, шале' | '${name} (${alt_name}), шале' | '${name}, шале' | 'шале' } [0x1160a resolution 24]
+tourism=guest_house [0x2b02 resolution 20]
+tourism=hostel {set name='${name} (${alt_name}) - ${description}, хостел' | '${name} - ${description}, хостел' | '${name} (${alt_name}), хостел' | '${name}, хостел' | 'хостел' } [0x2b02 resolution 21]
+tourism=hotel | tourism=motel { name '${name|def:}(${stars}*)${operator|def:}' | '${name} ${operator}' | '${name}' | '${operator}' } [0x2b01 resolution 21 default_name 'гостиница']
+tourism=information {set name='${name} - ${description} (${operator})'|
 '${name} - (${description})' | '${name}' | '${description}' |
-'${operator}' | '${ref}'} [0x4c00 resolution 24 default_name 'информация']
-tourism=museum [0x2c02 resolution 24 default_name 'музей']
-tourism=picnic_site [0x4a00 resolution 21 default_name 'пикник']
-tourism=theme_park [0x2c01 resolution 24 default_name 'лунапарк']
-tourism=viewpoint {name '${name} - ${description}' | '${name}'} [0x2c04 resolution 21 default_name 'хороший вид']
-tourism=wine_cellar [0x2c0a resolution 24 default_name 'винный погреб']
-tourism=zoo [0x2c07 resolution 24 default_name 'зоопарк']
+'${operator}' | '${ref}'} [0x2f0c resolution 20]
+tourism=museum [0x2c02 resolution 20 default_name 'музей']
+tourism=picnic_site {set name='${name} (${alt_name}), пикник' | '${name}, пикник' | 'пикник' } [0x4a00 resolution 24]
+tourism=theme_park [0x2c01 resolution 20]
+tourism=viewpoint {set name='${name} - ${description}' | '${name}'} [0x2c04 resolution 20]
+tourism=wine_cellar [0x2c0a resolution 20]
+tourism=zoo [0x2c07 resolution 20 default_name 'зоопарк']
 
 barrier=bollard | barrier=bus_trap
-    {add access = no; add bicycle = yes; add foot = yes} [0x660f resolution 24 default_name 'преграда']
+    {add access = no; add bicycle = yes; add foot = yes} [0x660f resolution 23]
 barrier=block | barrier=cycle_barrier | barrier=stile | barrier=kissing_gate
-    {add access = no; add foot = yes} [0x660f resolution 24 default_name 'преграда']
+    {add access = no; add foot = yes} [0x660f resolution 23]
+barrier=gate [0x11607 resolution 23]
+barrier=lift_gate [0x11607 resolution 23]
+    
+building=entrance [0x11514 resolution 25]
+#building=* [0x13 resolution 24]
 
-# My
-highway=traffic_signals | crossing=traffic_signals [0x1616 resolution 24 default_name 'светофор']
-railway=level_crossing [0x1615 resolution 24 default_name 'переезд']
-barrier=gate 
-	{set access = no} [0x5800 resolution 24 default_name 'ворота']
-barrier=lift_gate 
-	{set access = no} [0x5800 resolution 24 default_name 'шлагбаум']
-amenity=signpost { name '${label}' } [0x5a00 resolution  21 default_name 'указатель']
-traffic_sign=city_limit [0x56 resolution 21 default_name 'ограничение']
-highway=ford | ford=yes [0x6406 resolution 21 default_name 'брод']
+#building=* & mkgmap:area2poi!=true 
+#    {set name='${name} (${alt_name})' | '${name}' | '${description}'} [0x6402 resolution 24]
+    
+# st::local:recreation
 
-### Добавляем еще разных точек ###
-# Залив, плес
-natural=bay [0x6503 resolution 21 default_name 'залив']
-# Фонтан
-amenity=fountain [0x11502 resolution 24 default_name 'фонтан']
-# Вход в метро
-railway=subway_entrance [0x1614 resolution 24 default_name 'вход в метро']
-# карьер, рудник
-landuse=quarry [0x640c resolution 24 default_name 'карьер']
-# бункер, дот
-military=bunker & mkgmap:area2poi!=true [0x640b resolution 24 default_name 'бункер']
-# мосты. пока не работает
-# bridge=yes [0x6401 resolution 24 continue]
-highway=* & bridge=yes | bridge=yes [0x6401 resolution 24 continue default_name 'мост']
-
-# маяки
-man_made=lighthouse [0x16 resolution 19 default_name 'маяк']
-
-# точки из Whitewater 
-# http://wiki.openstreetmap.org/wiki/WikiProject_Whitewater_Maps
-whitewater=rapid	  {name '${whitewater:rapid_name}, пор. ${whitewater:rapid_grade}' |
-			  '${whitewater:rapid_name}' } [0x650e resolution 24 default_name 'порог']
-whitewater=egress	  [0x6514 resolution 24 default_name 'выход']
-whitewater=put_in	  [0x6515 resolution 24 default_name 'вход']
-whitewater=put_in & whitewater=egress [0x6516 resolution 24 default_name 'вход и выход']
-whitewater=hazard	  [0x6517 resolution 24 default_name 'опастность']
-
-# Всякие лежачие милиционэры
-traffic_calming=*	[0x11511 resolution 24 default_name 'неровность']
+net:bone=float & disused=yes [0x11605 resolution 24]
+net:bone=float & disused!=yes [0x11604 resolution 23]
