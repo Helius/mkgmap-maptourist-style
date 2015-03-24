@@ -35,7 +35,6 @@ bounds:
 	--write-pbf file=boundary/local-boundaries.osm.pbf omitmetadata=true compress=deflate inPipe.0=11 
 
 	${MKGMAP} \
-	--createboundsfile=boundary/local-boundaries.osm.pbf \
 	--bounds=./boundary/local/
 
 split:
@@ -63,7 +62,6 @@ convert:
 		--read-config=optionsfile.args \
 		--style-file=./${STYLE} \
 		--name-tag-list=${NAMELIST} \
-		--housenumbers \
 		--gmapsupp \
 		-c splitted/template.args ${STYLE}/${TYP}
 
